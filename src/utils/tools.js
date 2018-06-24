@@ -1,13 +1,3 @@
-//For now, only see if it's a valid number
-export const validadeLatLonValue = value => {
-  console.log('validando ' + value);
-  if (isNumber(value)) {
-    return true;
-  } else {
-    return false;
-  }
+export const isValidPositiveInteger = value => {
+  return value > 0 && Number.isInteger(Number.parseInt(value, 10));
 };
-
-function isNumber(n) {
-  return !Number.isNaN(Number.parseFloat(n));
-}
