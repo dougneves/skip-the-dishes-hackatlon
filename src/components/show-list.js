@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Button
-} from 'mdbreact';
+import { Container, Row, Col, ListGroup, ListGroupItem } from 'mdbreact';
 import { fetchData } from '../actions/fetch-data';
+import ShowListButtons from './show-list-buttons';
 
 const DEFAULT_STATE = {
   showNextPage: false,
@@ -96,23 +90,14 @@ class ShowList extends Component {
               ', and loading more in background...'}
           </Col>
         </Row>
-        <Row>
-          <Col>
-            {this.state.currentPage > 0 && (
-              <Button className="float-left" onClick={this.goToPreviousPage}>
-                previous
-              </Button>
-            )}
-          </Col>
-          <Col>{this.props.fetchData.fetching && <div>loading...</div>}</Col>
-          <Col>
-            {this.state.showNextPage && (
-              <Button className="float-right" onClick={this.goToNextPage}>
-                next
-              </Button>
-            )}
-          </Col>
-        </Row>
+
+        <ShowListButtons
+          currentPage={this.state.currentPage}
+          goToPreviousPage={this.goToPreviousPage}
+          showNextPage={this.state.showNextPage}
+          goToNextPage={this.goToNextPage}
+        />
+
         <ListGroup>
           {this.renderList(
             this.props.fetchData.list.slice(
@@ -121,23 +106,13 @@ class ShowList extends Component {
             )
           )}
         </ListGroup>
-        <Row>
-          <Col>
-            {this.state.currentPage > 0 && (
-              <Button className="float-left" onClick={this.goToPreviousPage}>
-                previous
-              </Button>
-            )}
-          </Col>
-          <Col>{this.props.fetchData.fetching && <div>loading...</div>}</Col>
-          <Col>
-            {this.state.showNextPage && (
-              <Button className="float-right" onClick={this.goToNextPage}>
-                next
-              </Button>
-            )}
-          </Col>
-        </Row>
+
+        <ShowListButtons
+          currentPage={this.state.currentPage}
+          goToPreviousPage={this.goToPreviousPage}
+          showNextPage={this.state.showNextPage}
+          goToNextPage={this.goToNextPage}
+        />
       </Container>
     );
   };
