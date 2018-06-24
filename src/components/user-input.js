@@ -25,11 +25,12 @@ class UserInput extends Component {
     const page = Number.parseInt(this.state.page, 10);
     if (call > page)
       return window.alert('itens per page must be greater then itens per call');
-    this.props.dispatch(fetchData({ itensPerCall: call, itensPerPage: page }));
+    this.props.dispatch(
+      fetchData({ itensPerCall: call, itensPerPage: page, clearData: true })
+    );
   };
 
   render = () => {
-    console.log(this.state);
     return (
       <Container>
         <Row>
@@ -44,7 +45,7 @@ class UserInput extends Component {
               onChange={this.onInputChange}
               value={this.state.call}
             />
-            {this.state.latitudeError && <div>invalid number</div>}
+            {this.state.callError && <div>invalid number</div>}
           </Col>
           <Col>
             <Input
@@ -53,11 +54,15 @@ class UserInput extends Component {
               onChange={this.onInputChange}
               value={this.state.page}
             />
-            {this.state.longitudeError && <div>invalid number</div>}
+            {this.state.pageError && <div>invalid number</div>}
           </Col>
           <Col>
             <Button
-              disabled={this.state.callError || this.state.pageError}
+              disabled={
+                this.state.callError ||
+                this.state.pageError ||
+                this.props.fetchData.fetching
+              }
               onClick={this.fetchData}
             >
               Search
@@ -69,4 +74,6 @@ class UserInput extends Component {
   };
 }
 
-export default connect()(UserInput);
+export default connect(state => {
+  return { fetchData: state.fetchData };
+})(UserInput);

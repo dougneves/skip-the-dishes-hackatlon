@@ -2,7 +2,8 @@ import {
   FETCH_DATA,
   _PENDING,
   _FULFILLED,
-  _REJECTED
+  _REJECTED,
+  _CLEAR
 } from '../utils/action-types';
 
 const DEFAULT_STATE = {
@@ -41,6 +42,11 @@ export default function reducer(state = DEFAULT_STATE, action) {
         error: true,
         errorMessage: action.payload.errorMessage,
         haveMoreItens: false
+      };
+    case FETCH_DATA + _CLEAR:
+      return {
+        ...state,
+        ...DEFAULT_STATE
       };
     default:
       return state;
