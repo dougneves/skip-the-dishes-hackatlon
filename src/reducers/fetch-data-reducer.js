@@ -2,13 +2,15 @@ import {
   FETCH_DATA,
   _PENDING,
   _FULFILLED,
-  _REJECTED
+  _REJECTED,
+  _CLEAR
 } from '../utils/action-types';
 
 const DEFAULT_STATE = {
   fetched: false,
   fetching: false,
   list: [],
+  haveMoreItens: false,
   error: false,
   errorMessage: ''
 };
@@ -20,7 +22,8 @@ export default function reducer(state = DEFAULT_STATE, action) {
         ...state,
         fetching: true,
         fetched: false,
-        error: false
+        error: false,
+        haveMoreItens: false
       };
     case FETCH_DATA + _FULFILLED:
       return {
@@ -28,7 +31,8 @@ export default function reducer(state = DEFAULT_STATE, action) {
         fetched: true,
         fetching: false,
         error: false,
-        list: action.payload
+        list: state.list.concat(action.payload.itens),
+        haveMoreItens: action.payload.haveMoreItens
       };
     case FETCH_DATA + _REJECTED:
       return {
@@ -36,7 +40,13 @@ export default function reducer(state = DEFAULT_STATE, action) {
         fetched: false,
         fetching: false,
         error: true,
-        errorMessage: action.payload.message
+        errorMessage: action.payload.errorMessage,
+        haveMoreItens: false
+      };
+    case FETCH_DATA + _CLEAR:
+      return {
+        ...state,
+        ...DEFAULT_STATE
       };
     default:
       return state;
